@@ -19,6 +19,5 @@ urlpatterns = [
     path("orders/<int:pk>", views.OrderListView.as_view(), name='order'),
     path("orders/delete/<int:pk>", views.OrderListDeleteView.as_view(), name='delete_order'),
     path("carts/", views.DetailCartView.as_view(), name='carts'),
-    # path('products/search/', views.SearchProductView.as_view()), na przyszłość, wprowadzić wyszukiwanie produktór
 
 ]
