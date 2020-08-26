@@ -234,19 +234,3 @@ class OrderListDeleteView(PermissionRequiredMixin, View):
         if request.POST['delete'] == 'Tak':
             OrderList.objects.get(pk=pk).delete()
         return redirect(reverse('orders'))
-
-
-# na przyszłość - wyszukiwanie produktów
-#
-# class SearchProductView(View):
-#     def get(self, request):
-#         name = request.GET.get("name")
-#         description = request.GET.get("description")
-#
-#         products = Product.objects.all()
-#         if name:
-#             products = products.filter(name__contains=name)
-#         if description:
-#             products = products.filter(description__contains=description)
-#
-#         return render(request, "object_list_products.html", context={"name": name, "description": description})
