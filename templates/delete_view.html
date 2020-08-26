@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+{% block content %}
+Czy na pewno chcesz skasować obiekt <strong>{{ obj }}</strong>
+<form method="post">
+{% csrf_token %}
+    <input name="delete" type="submit" value="Tak">
+    <input name="delete" type="submit" value="Nie">
+</form>
+{% endblock %}

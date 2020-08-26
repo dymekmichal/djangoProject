@@ -1,0 +1,26 @@
+<br>
+{# na przyszłość wyszukiwarka produktów, nie działa jeszcze #}
+{#   <form action="{% url 'products' %}" method="GET">#}
+{#        <table>#}
+{#        <tr><td><label for="name">Nazwa produktu</label></td>#}
+{#        <td><input type="text" name="name"></td></tr>#}
+{#        <tr><td><label for="description">Opis</label></td>#}
+{#            <td><input type="text" name="description"></td></tr>#}
+{#            <tr><td><button type="submit">Wyszukaj</button></td></tr>#}
+{#        </table>#}
+{#    </form>#}
+<br>
+<ul>
+{% for obj in objects %}
+    <p>
+        <li>
+            <a href="{{ obj.get_detail_url }}">{{ obj }}</a><a href="{{ obj.get_delete_url }}"><font color="#dc143c">&nbsp; &nbsp; Usuń</font></a>
+        </li>
+    </p>
+         <ul>
+           {% for location in obj.get_locations %}
+               <li><a href="{{ location.get_detail_url }}"> {{ location }} </a></li>
+           {% endfor %}
+        </ul>
+{% endfor %}
+</ul>

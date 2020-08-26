@@ -1,0 +1,15 @@
+<br>
+<ul>
+{% for obj in objects %}
+    <p>
+        <li>
+            <a href="{{ obj.get_detail_url }}">{{ obj }}</a><a href="{{ obj.get_delete_url }}"><font color="#dc143c">&nbsp; &nbsp; Usuń</font></a>
+        </li>
+    </p>
+         <ul>
+           {% for location in obj.get_locations %}
+               <li><a href="{{ location.get_detail_url }}"> {{ location }} </a></li>
+           {% endfor %}
+        </ul>
+{% endfor %}
+</ul>

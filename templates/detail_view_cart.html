@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+    </form>
+    <ul>
+        {% for item in cart.orderlist_set.all %}
+            <li>{{ item.product }} - {{ item.amount }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
