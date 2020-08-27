@@ -7,16 +7,26 @@ from django.urls import reverse
 
 
 def length_validation(value):
+    """
+    Funkcja używana jako walidacja ilości wpisanych w formularzu znaków.
+    """
     if len(value) != 6:
         raise ValidationError("Kod produktu musi się składać z 6 cyfr!")
 
 
 def date_validation(value):
+    """
+        Funkcja używana jako walidacja daty ustawionej w formularzu, zwracająca błąd
+        w przypadku wpisania daty wcześniejszej niż obecny dzień.
+    """
     if value < datetime.date.today():
         raise ValidationError("Produkt już jest przeterminowany!")
 
 
 class Location(models.Model):
+     """
+        Model, w którym tworzy się dokładną lokalizację produktu, znajdującego się w określonej strefie.
+    """
     location = models.CharField(max_length=8, verbose_name="Lokalizacja (xx.xx.xx):", unique=True, primary_key=False)
     zone = models.ForeignKey('Zone', on_delete=models.CASCADE, verbose_name="Strefa:")
 
@@ -31,6 +41,9 @@ class Location(models.Model):
 
 
 class Zone(models.Model):
+    """
+        Model tworzenia stref przechowywania w obiekcie magazynowym.
+    """
     zone = models.CharField(max_length=16, verbose_name="Strefa: ")
 
     def get_detail_url(self):
@@ -47,6 +60,9 @@ class Zone(models.Model):
 
 
 class Product(models.Model):
+     """
+        Model tworzenia produktu jako obiektu, który nie ma jeszcze określonej ilości i nie ma przypisanego miejsca składowania.
+    """
     name = models.CharField(max_length=32, verbose_name="Nazwa produktu:")
     code = models.CharField(max_length=6, unique=True, primary_key=False, validators=[length_validation],
                             verbose_name="Kod produktu (6 cyfr):")
@@ -65,6 +81,9 @@ class Product(models.Model):
 
 
 class Stock(models.Model):
+    """
+        Model, w którym dla danego produktu określana jest jego ilość w wybranej, stworzonej wcześniej lokalizacji.
+    """
     product = models.ForeignKey(Product, verbose_name="Produkt:", on_delete=models.CASCADE)
     localization = models.ForeignKey(Location, verbose_name="Lokalizacja:", on_delete=models.CASCADE)
     stock = models.IntegerField(verbose_name="Ilość:")
@@ -80,6 +99,9 @@ class Stock(models.Model):
 
 
 class Cart(models.Model):
+     """
+        Model koszyka, w którym przechowywane są wybrane przez użytkownika produkty oraz określana jest metoda ich dostarczenia do użytkownika.
+    """
     DELIVERY_CHOICE = (
         ("Transport z magazynu", "Transport z magazynu"),
         ("Odbiór własny", "Odbiór własny"),
@@ -93,7 +115,9 @@ class Cart(models.Model):
 
 
 class OrderList(models.Model):
-
+    """
+        Model listy zamówień, w którym określamy jaką ilość danego produktu chcemy zamówić i przechować w koszyku.
+    """
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Produkt:")
     amount = models.IntegerField(verbose_name="Ilość")
